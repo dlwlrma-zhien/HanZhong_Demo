@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>汉风食韵 - 汉中美食秘藏</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#D97706', // 暖橙主色，象征美食温度
+            secondary: '#8B4513', // 赭石色辅助，呼应汉文化底蕴
+            accent: '#4CAF50', // 鲜绿强调色，代表食材新鲜
+            food: {
+              100: '#FFF8E1', // 米黄食材底色
+              200: '#FFE0B2', // 暖黄料理色
+              300: '#FFCC80', // 橙黄美食色
+              400: '#FFB74D', // 琥珀色
+              500: '#FFA000', // 焦糖色
+              600: '#F57C00', // 赭橙色
+              700: '#E65100', // 砖橙色
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['"Noto Serif SC"', 'serif'],
+            calligraphy: ['"Ma Shan Zheng"', 'cursive'],
+          },
+          animation: {
+            'ingredient-float': 'ingredientFloat 6s ease-in-out infinite',
+            'dish-appear': 'dishAppear 0.8s ease-out forwards',
+            'scroll-fade': 'scrollFade 0.6s ease-out forwards',
+            'steam-rise': 'steamRise 2s infinite ease-in-out',
+          },
+          keyframes: {
+            ingredientFloat: {
+              '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+              '50%': { transform: 'translateY(-15px) rotate(5deg)' }
+            },
+            dishAppear: {
+              '0%': { transform: 'scale(0.9) opacity(0)' },
+              '100%': { transform: 'scale(1) opacity(1)' }
+            },
+            scrollFade: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' }
+            },
+            steamRise: {
+              '0%, 100%': { height: '0px', opacity: '0' },
+              '50%': { height: '30px', opacity: '0.5' }
+            }
+          },
+          backgroundImage: {
+            'food-pattern': "url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23D97706\" fill-opacity=\"0.05\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')",
+            'hero-pattern': "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('https://picsum.photos/id/431/1920/1080')"
+          },
+          boxShadow: {
+            'food': '0 10px 25px -5px rgba(217, 119, 6, 0.1), 0 8px 10px -6px rgba(217, 119, 6, 0.1)',
+            'dish': '0 20px 25px -5px rgba(217, 119, 6, 0.15), 0 10px 10px -5px rgba(217, 119, 6, 0.1)'
+          }
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow-food {
+        text-shadow: 2px 2px 4px rgba(217, 119, 6, 0.3);
+      }
+      .scroll-snap {
+        scroll-snap-type: x mandatory;
+      }
+      .snap-item {
+        scroll-snap-align: start;
+      }
+      .ingredient-bubble {
+        position: absolute;
+        border-radius: 50%;
+        background-color: rgba(217, 119, 6, 0.1);
+        animation: ingredientFloat 8s infinite ease-in-out;
+      }
+      .steam {
+        position: absolute;
+        width: 5px;
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 5px;
+        animation: steamRise 2s infinite ease-in-out;
+      }
+      .dish-ribbon {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(45deg, #D97706, #F57C00);
+        clip-path: polygon(50% 0%, 100% 0%, 100% 50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: rotate(45deg);
+      }
+      .brush-stroke::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 100%;
+        height: 12px;
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgNTYiPjxwYXRoIGQ9Ik0xODkuOTIsMjkuNTljMCwwLTQuNzQsNy43Ni0xMy40MSwxMC41NWMtOC42NywxLjc4LTE3LjI5LTMuNTctMjUuODctMi44M2MtOC41OSwwLjc0LTE3LjIxLDUuMDktMjUuMjksMS41M2MtOC0zLjU2LTE1LjU3LTEwLjQ4LTIzLjI3LTEyLjM1Yy03LjY5LTEuODctMTUuMjMsMi42My0yMS42OSw1LjE2QzE2LjI1LDM0LjQ4LDkuMTksMzIuODMsMi43MSwzMC42MUMxLjI0LDMwLjE1LDAsMjguOTYsMCwyNy43NnYtMC41OGMwLDAsMC44Ni0xLjA5LDIuMzgtMS41OGM0LjA2LTEuNDIsOS40MS0xLjE1LDEzLjA2LTAuNzFjMy42NSwwLjQ0LDguMzcsMS43NiwxMS45OSwwLjk3YzMuNjItMC43OSw3LjA4LTMuMjYsMTAuNDctMy40OGMzLjM5LTAuMjIsNi43NiwxLjM3LDEwLjA4LDEuMzRjMy4zMi0wLjAzLDYuNTYtMS45Nyw5Ljc0LTMuMDJjMy4xOC0xLjA1LDYuNTQtMC45Nyw5LjY3LDAuNDNjMy4xMywxLjQxLDUuOTIsMy45Myw4LjQ0LDUuNzhjMi41MiwxLjg1LDQuNjUsMy44Niw3LjA1LDQuNzhjMi40LDAuOTIsNS41My0wLjE0LDguNDYtMS45MkMxOTAuNjcsMjcuNTksMTkwLjkyLDI4Ljc1LDE5MC45MiwyOS41OXoiIGZpbGw9IiNEOThDNDYiIGZpbGwtb3BhY2l0eT0iMC41Ii8+PC9zdmc+');
+        background-size: contain;
+        background-repeat: no-repeat;
+        opacity: 0.7;
+        z-index: -1;
+      }
+      .food-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+    }
+  </style>
+  <link href="/css/css2.css" rel="stylesheet">
+</head>
+<body class="bg-neutral-50 font-sans text-neutral-800">
+  <!-- 导航栏 -->
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="bg-white/90 backdrop-blur-sm shadow-sm">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16 sm:h-20">
+          <!-- Logo -->
+          <a href="food_recommendation.html" class="flex items-center space-x-2">
+            <i class="fa fa-university text-primary text-2xl"></i>
+            <span class="text-xl font-serif font-bold text-primary">汉中文化旅游</span>
+          </a>
+          
+          <!-- 桌面导航 -->
+          <nav class="hidden md:flex items-center space-x-8">
+            <a href="index.html" class="ttext-neutral-600 hover:text-primary font-medium transition-colors">首页</a>
+            <a href="scenic_spots.html" class="text-neutral-600 hover:text-primary font-medium transition-colors">文化景点</a>
+            <a href="travel_routes.html" class="text-neutral-600 hover:text-primary font-medium transition-colors">精选路线</a>
+            <a href="han_culture.html" class="text-neutral-600 hover:text-primary font-medium transition-colors">汉文化</a>
+            <a href="food_recommendation.html" class="text-primary font-medium border-b-2 border-primary">汉中美食</a>
+            <a href="contact_us.html" class="text-neutral-600 hover:text-primary font-medium transition-colors">联系我们</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  <link href="/css/css2.css" rel="stylesheet">
+  <!-- 区域 -->
+  <section class="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img src="images/food/核桃馍.jpg" alt="汉中风景" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-r from-neutral-900/80 to-neutral-900/40"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+      <h1 class="text-[clamp(2.5rem,6vw,4.5rem)] font-cursive font-bold text-white mb-6 brush-stroke">
+        汉中美食秘藏
+      </h1>
+      <p class="text-[clamp(1rem,2vw,1.25rem)] text-white/90 max-w-2xl mx-auto mb-8">
+        探索汉中美食的美味佳肴，从传统美食到创新烹饪，让你品尝到汉中文化的魅力。
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <div class="mt-10 animate-slide-up" style="animation-delay: 0.6s">
+          <a href="#culture-overview" class="inline-flex items-center px-8 py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-md transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+            开始探索 <i class="fa fa-arrow-down ml-2"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="absolute bottom-0 w-full overflow-hidden leading-[0] rotate-180">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-[60px] md:h-[90px]">
+        <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="#F9FAFB" opacity=".7"></path>
+        <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="#F9FAFB" opacity=".5"></path>
+        <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="#F9FAFB"></path>
+      </svg>
+    </div>
+  </section>
+
+<!-- 美食概述 -->
+<section id="food-overview" class="py-20 bg-food-pattern">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-serif font-bold text-secondary relative inline-block brush-stroke">
+        汉中风物 舌尖千年
+      </h2>
+      <p class="text-neutral-600 mt-6 max-w-3xl mx-auto">
+        汉中美食融合了秦巴山区的物产精华与三国文化的历史底蕴，既有山野珍馐的自然风味，也有千年传承的独特技法。
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-white rounded-xl shadow-food p-6 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-dish">
+        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 mx-auto">
+          <i class="fa fa-leaf text-primary text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-center mb-4">自然馈赠</h3>
+        <p class="text-neutral-600 text-center">
+          依托秦巴山区的丰富物产，汉中美食以天然食材为核心，强调"不时不食"的饮食哲学，保留食材本真滋味。
+        </p>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-food p-6 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-dish">
+        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 mx-auto">
+          <i class="fa fa-history text-primary text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-center mb-4">历史传承</h3>
+        <p class="text-neutral-600 text-center">
+          自汉代以来，汉中就是连接巴蜀与中原的交通要冲，多元文化在此交融，形成了独特的饮食文化传统。
+        </p>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-food p-6 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-dish">
+        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 mx-auto">
+          <i class="fa fa-cutlery text-primary text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-center mb-4">技艺精湛</h3>
+        <p class="text-neutral-600 text-center">
+          从传统手工面条到精致的风味小吃，每一道汉中美食都蕴含着独特的制作技艺和匠人精神。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 特色美食展示 -->
+<section id="featured-foods" class="py-20 bg-white">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-serif font-bold text-secondary relative inline-block brush-stroke">
+        经典美食 不容错过
+      </h2>
+      <p class="text-neutral-600 mt-6 max-w-3xl mx-auto">
+        每一道美食背后都有一个故事，每一种味道都承载着千年文化的记忆
+      </p>
+    </div>
+
+    <div class="food-grid">
+      <!-- 菜豆腐 -->
+      <div class="group bg-food-100 rounded-xl overflow-hidden shadow-food relative transform transition-all duration-500 hover:-translate-y-3 hover:shadow-dish">
+        <div class="h-60 overflow-hidden relative">
+          <img src="images/food/菜豆腐.jpg" alt="菜豆腐" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+            <div class="p-6">
+              <p class="text-white text-sm italic">
+                "相传为刘邦驻军汉中时，当地百姓用剩余豆浆制成，后流传至今。"
+              </p>
+            </div>
+          </div>
+          <!-- 热气效果 -->
+          <div class="absolute top-4 left-1/4 transform -translate-x-1/2">
+            <div class="steam" style="left: 0px; animation-delay: 0.2s;"></div>
+            <div class="steam" style="left: 10px; animation-delay: 0.4s;"></div>
+            <div class="steam" style="left: 20px; animation-delay: 0.6s;"></div>
+          </div>
+          <div class="absolute top-4 right-1/4 transform translate-x-1/2">
+            <div class="steam" style="left: 0px; animation-delay: 0.3s;"></div>
+            <div class="steam" style="left: 10px; animation-delay: 0.5s;"></div>
+            <div class="steam" style="left: 20px; animation-delay: 0.7s;"></div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">菜豆腐</h3>
+          <p class="text-neutral-600 mt-2">
+            汉中地区传统名菜，以黄豆磨浆点卤制成豆腐，配以浆水菜和多种调料，口感清爽，豆香浓郁。
+          </p>
+          <div class="mt-4 flex items-center justify-between">
+            <div class="flex items-center">
+              <span class="text-primary font-medium">特色：</span>
+              <span class="ml-2 text-sm text-neutral-500">清热去火、口感细腻</span>
+            </div>
+            <div class="flex items-center">
+              <i class="fa fa-star text-yellow-400"></i>
+              <span class="ml-1 text-neutral-700">4.9</span>
+            </div>
+          </div>
+        </div>
+        <!-- 装饰丝带 -->
+        <div class="dish-ribbon">
+          <span class="text-white font-bold text-sm transform -rotate-45">传统名菜</span>
+        </div>
+      </div>
+
+      <!-- 面皮 -->
+      <div class="group bg-food-100 rounded-xl overflow-hidden shadow-food relative transform transition-all duration-500 hover:-translate-y-3 hover:shadow-dish">
+        <div class="h-60 overflow-hidden relative">
+          <img src="images/food/汉中面皮.jpg" alt="面皮" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+            <div class="p-6">
+              <p class="text-white text-sm italic">
+                "始于秦汉时期，原为宫廷美食，后传入民间成为汉中百姓喜爱的风味小吃。"
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">汉中面皮</h3>
+          <p class="text-neutral-600 mt-2">
+            以优质面粉为原料，经发酵、蒸制而成，配以辣椒油、蒜泥、香醋等调料，酸辣可口，回味无穷。
+          </p>
+          <div class="mt-4 flex items-center justify-between">
+            <div class="flex items-center">
+              <span class="text-primary font-medium">特色：</span>
+              <span class="ml-2 text-sm text-neutral-500">口感筋道、香辣开胃</span>
+            </div>
+            <div class="flex items-center">
+              <i class="fa fa-star text-yellow-400"></i>
+              <span class="ml-1 text-neutral-700">4.8</span>
+            </div>
+          </div>
+        </div>
+        <!-- 装饰丝带 -->
+        <div class="dish-ribbon">
+          <span class="text-white font-bold text-sm transform -rotate-45">地域代表</span>
+        </div>
+      </div>
+
+      <!-- 浆水面 -->
+      <div class="group bg-food-100 rounded-xl overflow-hidden shadow-food relative transform transition-all duration-500 hover:-translate-y-3 hover:shadow-dish">
+        <div class="h-60 overflow-hidden relative">
+          <img src="images/food/汉中浆水面.jpg" alt="浆水面" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+            <div class="p-6">
+              <p class="text-white text-sm italic">
+                "源自古代巴人饮食习俗，以发酵蔬菜制成的浆水入面，具有消暑解渴之功效。"
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">浆水面</h3>
+          <p class="text-neutral-600 mt-2">
+            以芹菜、萝卜缨等蔬菜发酵制成浆水，配以手工面条，清爽可口，是夏季消暑佳品。
+          </p>
+          <div class="mt-4 flex items-center justify-between">
+            <div class="flex items-center">
+              <span class="text-primary font-medium">特色：</span>
+              <span class="ml-2 text-sm text-neutral-500">开胃消暑、营养丰富</span>
+            </div>
+            <div class="flex items-center">
+              <i class="fa fa-star text-yellow-400"></i>
+              <span class="ml-1 text-neutral-700">4.7</span>
+            </div>
+          </div>
+        </div>
+        <!-- 装饰丝带 -->
+        <div class="dish-ribbon">
+          <span class="text-white font-bold text-sm transform -rotate-45">消暑圣品</span>
+        </div>
+      </div>
+
+      <!-- 罐罐茶 -->
+      <div class="group bg-food-100 rounded-xl overflow-hidden shadow-food relative transform transition-all duration-500 hover:-translate-y-3 hover:shadow-dish">
+        <div class="h-60 overflow-hidden relative">
+          <img src="images/food/略阳罐罐茶.jpg" alt="罐罐茶" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+            <div class="p-6">
+              <p class="text-white text-sm italic">
+                "三国时期，诸葛亮屯兵汉中时，将士们用陶罐煮茶驱寒，逐渐形成习俗。"
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">罐罐茶</h3>
+          <p class="text-neutral-600 mt-2">
+            用小陶罐在火塘上煮茶，配以炒黄豆、芝麻、核桃仁等，香气浓郁，滋补养生。
+          </p>
+          <div class="mt-4 flex items-center justify-between">
+            <div class="flex items-center">
+              <span class="text-primary font-medium">特色：</span>
+              <span class="ml-2 text-sm text-neutral-500">暖胃驱寒、口感丰富</span>
+            </div>
+            <div class="flex items-center">
+              <i class="fa fa-star text-yellow-400"></i>
+              <span class="ml-1 text-neutral-700">4.6</span>
+            </div>
+          </div>
+        </div>
+        <!-- 装饰丝带 -->
+        <div class="dish-ribbon">
+          <span class="text-white font-bold text-sm transform -rotate-45">养生饮品</span>
+        </div>
+      </div>
+
+      <!-- 红豆腐 -->
+      <div class="group bg-food-100 rounded-xl overflow-hidden shadow-food relative transform transition-all duration-500 hover:-translate-y-3 hover:shadow-dish">
+        <div class="h-60 overflow-hidden relative">
+          <img src="images/food/上元观红豆腐.jpg" alt="红豆腐" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+            <div class="p-6">
+              <p class="text-white text-sm italic">
+                "相传为张骞出使西域带回的酿造技艺，经千年改良，成为汉中特色美食。"
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">红豆腐</h3>
+          <p class="text-neutral-600 mt-2">
+            以优质豆腐为原料，经发酵、腌制后裹上红曲米，色泽红艳，味道醇厚，是餐桌上的美味佳肴。
+          </p>
+          <div class="mt-4 flex items-center justify-between">
+            <div class="flex items-center">
+              <span class="text-primary font-medium">特色：</span>
+              <span class="ml-2 text-sm text-neutral-500">色泽诱人、风味独特</span>
+            </div>
+            <div class="flex items-center">
+              <i class="fa fa-star text-yellow-400"></i>
+              <span class="ml-1 text-neutral-700">4.9</span>
+            </div>
+          </div>
+        </div>
+        <!-- 装饰丝带 -->
+        <div class="dish-ribbon">
+          <span class="text-white font-bold text-sm transform -rotate-45">传统发酵</span>
+        </div>
+      </div>
+
+      <!-- 腊肉 -->
+      <div class="group bg-food-100 rounded-xl overflow-hidden shadow-food relative transform transition-all duration-500 hover:-translate-y-3 hover:shadow-dish">
+        <div class="h-60 overflow-hidden relative">
+          <img src="images/food/腊肉.jpeg" alt="腊肉" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+            <div class="p-6">
+              <p class="text-white text-sm italic">
+                "秦巴山区传统美食，每逢冬至，家家户户制作腊肉，成为独特的年节文化符号。"
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">汉中腊肉</h3>
+          <p class="text-neutral-600 mt-2">
+            选用本地土猪肉，用柏树枝、花椒、八角等香料腌制熏制而成，肉质紧实，香味独特。
+          </p>
+          <div class="mt-4 flex items-center justify-between">
+            <div class="flex items-center">
+              <span class="text-primary font-medium">特色：</span>
+              <span class="ml-2 text-sm text-neutral-500">香气浓郁、风味独特</span>
+            </div>
+            <div class="flex items-center">
+              <i class="fa fa-star text-yellow-400"></i>
+              <span class="ml-1 text-neutral-700">4.8</span>
+            </div>
+          </div>
+        </div>
+        <!-- 装饰丝带 -->
+        <div class="dish-ribbon">
+          <span class="text-white font-bold text-sm transform -rotate-45">年节佳肴</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 美食地图 -->
+<section id="food-map" class="py-20 bg-neutral-100">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-serif font-bold text-secondary relative inline-block brush-stroke">
+        美食寻味地图
+      </h2>
+      <p class="text-neutral-600 mt-6 max-w-3xl mx-auto">
+        探索汉中各个角落的美食宝藏，寻找最地道的风味体验
+      </p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+      <div class="flex flex-col lg:flex-row">
+        <div class="lg:w-1/2 p-6 lg:p-10">
+          <h3 class="text-xl font-bold text-secondary mb-6">汉台区美食推荐</h3>
+          <div class="space-y-6">
+            <div class="flex items-start space-x-4">
+              <div class="bg-primary/10 p-3 rounded-lg">
+                <i class="fa fa-map-marker text-primary text-xl"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-lg">张记面皮</h4>
+                <p class="text-neutral-600 mt-1">汉台区东大街88号</p>
+                <div class="flex items-center mt-2">
+                  <i class="fa fa-star text-yellow-400"></i>
+                  <span class="ml-1 text-neutral-700">4.9 (328条评价)</span>
+                </div>
+                <p class="text-neutral-500 mt-2 text-sm">
+                  传承三代的老字号，面皮筋道有嚼劲，辣椒油香而不辣，是汉中人早餐的首选。
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-4">
+              <div class="bg-primary/10 p-3 rounded-lg">
+                <i class="fa fa-map-marker text-primary text-xl"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-lg">李家菜豆腐</h4>
+                <p class="text-neutral-600 mt-1">汉台区中山街120号</p>
+                <div class="flex items-center mt-2">
+                  <i class="fa fa-star text-yellow-400"></i>
+                  <span class="ml-1 text-neutral-700">4.8 (256条评价)</span>
+                </div>
+                <p class="text-neutral-500 mt-2 text-sm">
+                  百年老店，采用传统工艺制作，豆腐鲜嫩，浆水菜酸香可口，搭配汉中特色锅贴堪称一绝。
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-4">
+              <div class="bg-primary/10 p-3 rounded-lg">
+                <i class="fa fa-map-marker text-primary text-xl"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-lg">王家罐罐茶</h4>
+                <p class="text-neutral-600 mt-1">汉台区北关正街56号</p>
+                <div class="flex items-center mt-2">
+                  <i class="fa fa-star text-yellow-400"></i>
+                  <span class="ml-1 text-neutral-700">4.7 (189条评价)</span>
+                </div>
+                <p class="text-neutral-500 mt-2 text-sm">
+                  隐匿于老街巷中的特色小店，罐罐茶煮得香浓，搭配自家制作的核桃饼，别有一番风味。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="lg:w-1/2 bg-neutral-200 p-6 flex items-center justify-center">
+          <!-- 地图占位 -->
+          <div class="relative w-full h-[400px] rounded-lg overflow-hidden shadow-md">
+            <img src="images/scenic_spots/地图.png" alt="汉中美食地图" class="w-full h-full object-cover">
+            <!-- 地图标记 -->
+            <div class="absolute top-1/4 left-1/3 w-6 h-6 bg-primary rounded-full flex items-center justify-center cursor-pointer transform transition-transform hover:scale-125">
+              <span class="text-white text-xs font-bold">1</span>
+            </div>
+            <div class="absolute top-1/2 left-1/2 w-6 h-6 bg-primary rounded-full flex items-center justify-center cursor-pointer transform transition-transform hover:scale-125">
+              <span class="text-white text-xs font-bold">2</span>
+            </div>
+            <div class="absolute bottom-1/4 right-1/3 w-6 h-6 bg-primary rounded-full flex items-center justify-center cursor-pointer transform transition-transform hover:scale-125">
+              <span class="text-white text-xs font-bold">3</span>
+            </div>
+            <!-- 地图标题 -->
+            <div class="absolute bottom-0 left-0 w-full bg-black/70 text-white p-4">
+              <h4 class="font-bold">汉中美食分布示意图</h4>
+              <p class="text-sm">点击标记查看详情</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 美食文化 -->
+<section id="food-culture" class="py-20 bg-white">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-serif font-bold text-secondary relative inline-block brush-stroke">
+        美食文化溯源
+      </h2>
+      <p class="text-neutral-600 mt-6 max-w-3xl mx-auto">
+        每一道美食背后都有一个故事，每一种味道都承载着千年文化的记忆
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div class="order-2 md:order-1">
+        <h3 class="text-2xl font-bold text-secondary mb-6">饮食文化的交融与传承</h3>
+        <p class="text-neutral-600 mb-4">
+          汉中地处秦巴山区，是连接关中平原与四川盆地的交通要冲，独特的地理位置使得这里的饮食文化兼具南北风味，形成了独特的地域特色。
+        </p>
+        <p class="text-neutral-600 mb-4">
+          自汉代以来，汉中就是兵家必争之地，也是文化交流的重要枢纽。三国时期，诸葛亮在此屯兵八年，留下了丰富的历史遗迹和饮食文化传说。
+        </p>
+        <p class="text-neutral-600 mb-6">
+          汉中美食以"鲜、香、辣、酸"为特色，注重食材的天然品质和传统烹饪技法的传承，许多菜品都有着上千年的历史，是中华文化宝库中的重要组成部分。
+        </p>
+        
+        <div class="bg-food-100 p-6 rounded-lg">
+          <h4 class="font-bold text-lg text-secondary mb-4">文化典故</h4>
+          <p class="text-neutral-600 italic">
+            "相传刘邦在汉中称王时，当地百姓用菜豆腐犒劳将士，刘邦食后赞不绝口，此后菜豆腐便成为汉中地区的传统美食。"
+          </p>
+        </div>
+      </div>
+      
+      <div class="order-1 md:order-2">
+        <div class="relative">
+          <img src="images/food/核桃馍.jpg" alt="汉中美食文化" class="w-full h-auto rounded-xl shadow-lg">
+          <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg shadow-lg max-w-xs">
+            <div class="flex items-center">
+              <i class="fa fa-quote-left text-primary text-2xl mr-3"></i>
+              <p class="text-neutral-700 italic">
+                "夫礼之初，始诸饮食"
+              </p>
+            </div>
+            <p class="text-right text-neutral-500 text-sm mt-2">——《礼记·礼运》</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 推荐行程 -->
+<section id="food-tour" class="py-20 bg-food-pattern">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-serif font-bold text-secondary relative inline-block brush-stroke">
+        美食寻味之旅
+      </h2>
+      <p class="text-neutral-600 mt-6 max-w-3xl mx-auto">
+        精心设计的美食探索路线，带你领略汉中地道风味
+      </p>
+    </div>
+
+    <div class="relative">
+      <!-- 时间线 -->
+      <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-1 bg-primary/20 transform md:-translate-x-1/2"></div>
+      
+      <div class="space-y-12 relative">
+        <!-- 行程1 -->
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
+            <div class="bg-white p-6 rounded-xl shadow-food transform transition-all duration-300 hover:-translate-y-1 hover:shadow-dish">
+              <span class="inline-block bg-primary text-white px-3 py-1 rounded-full text-sm font-medium mb-3">上午</span>
+              <h3 class="text-xl font-bold text-secondary">文化早餐体验</h3>
+              <p class="text-neutral-600 mt-2">
+                品尝正宗汉中面皮和菜豆腐，感受千年传承的早餐文化，聆听老饕分享美食故事。
+              </p>
+              <div class="mt-4 flex justify-end">
+                <span class="bg-food-100 text-secondary px-3 py-1 rounded-full text-sm">
+                  <i class="fa fa-clock-o mr-1"></i> 2小时
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="hidden md:block absolute left-1/2 w-6 h-6 bg-primary rounded-full transform -translate-x-1/2"></div>
+          
+          <div class="md:w-1/2 md:pl-12">
+            <img src="images/food/汉中面皮.jpg" alt="汉中面皮" class="w-full h-auto rounded-xl shadow-lg">
+          </div>
+        </div>
+        
+        <!-- 行程2 -->
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="md:w-1/2 md:pr-12 order-2 md:order-1 mt-6 md:mt-0">
+            <img src="images/food/菜市场.jpg" alt="传统市场" class="w-full h-auto rounded-xl shadow-lg">
+          </div>
+          
+          <div class="hidden md:block absolute left-1/2 w-6 h-6 bg-primary rounded-full transform -translate-x-1/2"></div>
+          
+          <div class="md:w-1/2 md:pl-12 order-1 md:order-2">
+            <div class="bg-white p-6 rounded-xl shadow-food transform transition-all duration-300 hover:-translate-y-1 hover:shadow-dish">
+              <span class="inline-block bg-primary text-white px-3 py-1 rounded-full text-sm font-medium mb-3">中午</span>
+              <h3 class="text-xl font-bold text-secondary">传统市场探秘</h3>
+              <p class="text-neutral-600 mt-2">
+                跟随当地美食专家逛传统市场，了解汉中特色食材，品尝街头小吃，学习辨别地道美食。
+              </p>
+              <div class="mt-4 flex justify-start">
+                <span class="bg-food-100 text-secondary px-3 py-1 rounded-full text-sm">
+                  <i class="fa fa-clock-o mr-1"></i> 3小时
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 行程3 -->
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
+            <div class="bg-white p-6 rounded-xl shadow-food transform transition-all duration-300 hover:-translate-y-1 hover:shadow-dish">
+              <span class="inline-block bg-primary text-white px-3 py-1 rounded-full text-sm font-medium mb-3">下午</span>
+              <h3 class="text-xl font-bold text-secondary">厨艺体验课</h3>
+              <p class="text-neutral-600 mt-2">
+                在当地厨师指导下学习制作汉中特色美食，亲手体验传统烹饪技艺，品尝自己的劳动成果。
+              </p>
+              <div class="mt-4 flex justify-end">
+                <span class="bg-food-100 text-secondary px-3 py-1 rounded-full text-sm">
+                  <i class="fa fa-clock-o mr-1"></i> 4小时
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="hidden md:block absolute left-1/2 w-6 h-6 bg-primary rounded-full transform -translate-x-1/2"></div>
+          
+          <div class="md:w-1/2 md:pl-12">
+            <img src="images/han_culture/美食.jpg" alt="厨艺课" class="w-full h-auto rounded-xl shadow-lg">
+          </div>
+        </div>
+        
+        <!-- 行程4 -->
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="md:w-1/2 md:pr-12 order-2 md:order-1 mt-6 md:mt-0">
+            <img src="images/food/前进路美食街.jpg" alt="夜市" class="w-full h-auto rounded-xl shadow-lg">
+          </div>
+          
+          <div class="hidden md:block absolute left-1/2 w-6 h-6 bg-primary rounded-full transform -translate-x-1/2"></div>
+          
+          <div class="md:w-1/2 md:pl-12 order-1 md:order-2">
+            <div class="bg-white p-6 rounded-xl shadow-food transform transition-all duration-300 hover:-translate-y-1 hover:shadow-dish">
+              <span class="inline-block bg-primary text-white px-3 py-1 rounded-full text-sm font-medium mb-3">晚上</span>
+              <h3 class="text-xl font-bold text-secondary">夜市美食漫步</h3>
+              <p class="text-neutral-600 mt-2">
+                夜幕降临时，漫步汉中夜市，品尝各种特色小吃，感受当地夜生活的热闹氛围。
+              </p>
+              <div class="mt-4 flex justify-start">
+                <span class="bg-food-100 text-secondary px-3 py-1 rounded-full text-sm">
+                  <i class="fa fa-clock-o mr-1"></i> 3小时
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 预订美食之旅 -->
+<section id="booking" class="py-16 bg-white">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto bg-primary/5 rounded-2xl overflow-hidden shadow-sm">
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        <div class="p-8 sm:p-10 lg:p-12">
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-neutral-800 mb-6">
+            立即预订您的美食之旅
+          </h2>
+          <p class="text-neutral-600 mb-8">
+            填写以下信息，我们的旅行顾问将在24小时内与您联系，为您提供详细的行程规划和报价。
+          </p>
+          
+          <form id="booking-form" class="space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label for="name" class="block text-sm font-medium text-neutral-700 mb-1">姓名</label>
+                <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入您的姓名" required>
+              </div>
+              <div>
+                <label for="phone" class="block text-sm font-medium text-neutral-700 mb-1">手机号码</label>
+                <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入您的手机号码" required>
+              </div>
+            </div>
+            
+            <div>
+              <label for="email" class="block text-sm font-medium text-neutral-700 mb-1">电子邮箱</label>
+              <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入您的电子邮箱" required>
+            </div>
+            
+            <div>
+              <label for="route" class="block text-sm font-medium text-neutral-700 mb-1">选择美食</label>
+              <select id="route" name="route" class="w-full px-4 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                <option value="">请选择您感兴趣美食</option>
+                <option value="汉中热米皮">汉中热米皮</option>
+                <option value="上远观红豆腐">上远观红豆腐</option>
+                <option value="洋县枣糕膜">洋县枣糕膜</option>
+                <option value="其他美食">其他美食</option>
+              </select>
+            </div>
+            
+            <div>
+              <label for="date" class="block text-sm font-medium text-neutral-700 mb-1">出行日期</label>
+              <input type="date" id="date" name="date" class="w-full px-4 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+            </div>
+            
+            <div>
+              <label for="message" class="block text-sm font-medium text-neutral-700 mb-1">特殊要求</label>
+              <textarea id="message" name="message" rows="3" class="w-full px-4 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入您的特殊要求或疑问"></textarea>
+            </div>
+            
+            <div class="pt-2">
+              <button type="submit" class="w-full px-6 py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-md transition-colors">
+                提交预订申请
+              </button>
+            </div>
+          </form>
+        </div>
+        
+        <div class="hidden md:block relative">
+          <img src="images/food/汉中面皮.jpg" alt="汉中面皮" class="absolute inset-0 w-full h-full object-cover">
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="bg-neutral-700 text-white pt-16 pb-8 relative overflow-hidden">
+  <!-- 背景装饰元素 -->
+  <div class="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full -ml-32 -mt-32"></div>
+  <div class="absolute bottom-0 right-0 w-80 h-80 bg-primary/5 rounded-full -mr-40 -mb-40"></div>
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
+      <!-- 左侧板块 - 保持不变 -->
+      <div class="md:col-span-3">
+        <div class="flex items-center space-x-2 mb-6">
+          <i class="fa fa-university text-primary text-2xl"></i>
+          <span class="text-xl font-serif font-bold text-white">汉中文化旅游</span>
+        </div>
+        <p class="text-neutral-400 mb-6">
+          探索千年汉文化的源头，感受历史与自然的完美融合。
+        </p>
+        <div class="flex space-x-4">
+          <a href="#" class="w-10 h-10 bg-neutral-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors duration-300 transform hover:scale-110">
+            <i class="fa fa-weixin"></i>
+          </a>
+          <a href="#" class="w-10 h-10 bg-neutral-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors duration-300 transform hover:scale-110">
+            <i class="fa fa-weibo"></i>
+          </a>
+          <a href="#" class="w-10 h-10 bg-neutral-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors duration-300 transform hover:scale-110">
+            <i class="fa fa-youtube-play"></i>
+          </a>
+          <a href="#" class="w-10 h-10 bg-neutral-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors duration-300 transform hover:scale-110">
+            <i class="fa fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- 中间板块 - 诗词 -->
+      <div class="md:col-span-6 bg-gradient-to-r from-neutral-800 via-neutral-900 to-neutral-800 p-8 rounded-xl shadow-lg relative overflow-hidden">
+        <div class="relative z-10">
+          <h3 class="text-xl font-serif font-bold text-white mb-6 text-center brush-stroke">汉中之美</h3>
+          <div class="text-neutral-300 space-y-4 font-serif text-lg">
+            <p class="text-center leading-relaxed">
+              <span class="text-primary">汉江之畔千年城</span>，<br>
+              <span class="text-primary">古汉台前忆峥嵘</span>。<br>
+              <span class="text-primary">武侯祠内柏森森</span>，<br>
+              <span class="text-primary">褒斜栈道接云空</span>。<br>
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 右侧板块 - 订阅我们 -->
+      <div class="md:col-span-3">
+        <h3 class="text-lg font-medium text-white mb-6">订阅我们</h3>
+        <p class="text-neutral-400 mb-4">
+          订阅我们的电子邮件，获取最新的旅游资讯和优惠活动。
+        </p>
+        <form class="space-y-3">
+          <div>
+            <input type="email" placeholder="您的电子邮箱" class="w-full px-4 py-3 bg-neutral-700 border border-neutral-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-white placeholder-neutral-400 transition-all duration-300">
+          </div>
+          <button type="submit" class="w-full px-4 py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-md transition-colors duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+            <i class="fa fa-paper-plane mr-2"></i> 订阅
+          </button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="border-t border-neutral-700 pt-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <p class="text-neutral-500 text-sm mb-4 md:mb-0">
+          &copy; 2025 汉中文化旅游发展有限公司 版权所有 | 陕ICP备12345678号
+        </p>
+        <div class="flex space-x-6">
+          <a href="#" class="text-neutral-500 hover:text-primary text-sm transition-colors duration-300">隐私政策</a>
+          <a href="#" class="text-neutral-500 hover:text-primary text-sm transition-colors duration-300">服务条款</a>
+          <a href="#" class="text-neutral-500 hover:text-primary text-sm transition-colors duration-300">网站地图</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- 回到顶部按钮 -->
+<button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-primary/90">
+<i class="fa fa-arrow-up"></i>
+</button>
+
+<!-- JavaScript -->
+<script>
+// 导航栏滚动效果
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 100) {
+    navbar.classList.add('bg-white', 'shadow-md');
+    navbar.classList.remove('bg-transparent');
+  } else {
+    navbar.classList.remove('bg-white', 'shadow-md');
+    navbar.classList.add('bg-transparent');
+  }
+});
+// 回到顶部按钮
+const backToTopButton = document.getElementById('back-to-top');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 500) {
+    backToTopButton.classList.remove('opacity-0', 'invisible');
+    backToTopButton.classList.add('opacity-100', 'visible');
+  } else {
+    backToTopButton.classList.add('opacity-0', 'invisible');
+    backToTopButton.classList.remove('opacity-100', 'visible');
+  }
+});
+
+backToTopButton.addEventListener('click', () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
+
+// 预订表单提交
+const bookingForm = document.getElementById('booking-form');
+  bookingForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    // 这里可以添加表单验证和提交逻辑
+    alert('预订申请已提交，我们的旅行顾问将尽快与您联系！');
+    bookingForm.reset();
+  });
+
+  // 为行程添加动画效果
+  const animateOnScroll = () => {
+    const elements = document.querySelectorAll('.timeline-item');
+    elements.forEach(element => {
+      const elementPosition = element.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+      if (elementPosition < windowHeight - 100) {
+        element.classList.add('animate-fade-in');
+      }
+    });
+  };
+
+  window.addEventListener('scroll', animateOnScroll);
+  window.addEventListener('load', animateOnScroll);
+</script>
+</body>
+</html>

@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>溯源千年 汉脉传承 - 汉中文化之旅</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#D97706', // 暖橙主色，象征文化传承
+            secondary: '#8B4513', // 赭石色辅助，呼应历史底蕴
+            accent: '#1E40AF', // 靛蓝强调色，代表汉水文化
+            han: {
+              100: '#FFF8E1', // 米黄文化底色
+              200: '#FFE0B2', // 暖黄历史色
+              300: '#FFCC80', // 橙黄文化色
+              400: '#FFB74D', // 琥珀色
+              500: '#FFA000', // 焦糖色
+              600: '#F57C00', // 赭橙色
+              700: '#E65100', // 砖橙色
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['"Noto Serif SC"', 'serif'],
+            calligraphy: ['"Ma Shan Zheng"', 'cursive'],
+          },
+          animation: {
+            'history-float': 'historyFloat 8s ease-in-out infinite',
+            'scroll-fade': 'scrollFade 0.6s ease-out forwards',
+            'text-reveal': 'textReveal 1.2s ease-out forwards',
+            'scroll-indicator': 'scrollIndicator 2s infinite',
+          },
+          keyframes: {
+            historyFloat: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-15px)' }
+            },
+            scrollFade: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' }
+            },
+            textReveal: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' }
+            },
+            scrollIndicator: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(10px)' }
+            }
+          },
+          backgroundImage: {
+            'culture-pattern': "url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23D97706\" fill-opacity=\"0.05\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')",
+            'hero-pattern': "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('https://picsum.photos/id/1036/1920/1080')"
+          },
+          boxShadow: {
+            'culture': '0 10px 25px -5px rgba(217, 119, 6, 0.1), 0 8px 10px -6px rgba(217, 119, 6, 0.1)',
+            'artifact': '0 20px 25px -5px rgba(139, 69, 19, 0.2), 0 10px 10px -5px rgba(139, 69, 19, 0.1)'
+          }
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow-history {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+      .brush-stroke::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        width: 100%;
+        height: 12px;
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgNTYiPjxwYXRoIGQ9Ik0xODkuOTIsMjkuNTljMCwwLTQuNzQsNy43Ni0xMy40MSwxMC41NWMtOC42NywxLjc4LTE3LjI5LTMuNTctMjUuODctMi44M2MtOC41OSwwLjc0LTE3LjIxLDUuMDktMjUuMjksMS41M2MtOC0zLjU2LTE1LjU3LTEwLjQ4LTIzLjI3LTEyLjM1Yy03LjY5LTEuODctMTUuMjMsMi42My0yMS42OSw1LjE2QzE2LjI1LDM0LjQ4LDkuMTksMzIuODMsMi43MSwzMC42MUMxLjI0LDMwLjE1LDAsMjguOTYsMCwyNy43NnYtMC41OGMwLDAsMC44Ni0xLjA5LDIuMzgtMS41OGM0LjA2LTEuNDIsOS40MS0xLjE1LDEzLjA2LTAuNzFjMy42NSwwLjQ0LDguMzcsMS43NiwxMS45OSwwLjk3YzMuNjItMC43OSw3LjA4LTMuMjYsMTAuNDctMy40OGMzLjM5LTAuMjIsNi43NiwxLjM3LDEwLjA4LDEuMzRjMy4zMi0wLjAzLDYuNTYtMS45Nyw5Ljc0LTMuMDJjMy4xOC0xLjA1LDYuNTQtMC45Nyw5LjY3LDAuNDNjMy4xMywxLjQxLDUuOTIsMy45Myw4LjQ0LDUuNzhjMi41MiwxLjg1LDQuNjUsMy44Niw3LjA1LDQuNzhjMi40LDAuOTIsNS41My0wLjE0LDguNDYtMS45MkMxOTAuNjcsMjcuNTksMTkwLjkyLDI4Ljc1LDE5MC45MiwyOS41OXoiIGZpbGw9IiNEOThDNDYiIGZpbGwtb3BhY2l0eT0iMC41Ii8+PC9zdmc+');
+        background-size: contain;
+        background-repeat: no-repeat;
+        opacity: 0.7;
+        z-index: -1;
+      }
+      .timeline-item {
+        @apply relative pl-8 md:pl-0 md:flex md:items-center md:justify-between mb-12;
+      }
+      .timeline-dot {
+        @apply absolute left-0 top-0 w-4 h-4 rounded-full bg-primary border-4 border-white;
+      }
+      .scroll-snap-x {
+        scroll-snap-type: x mandatory;
+      }
+      .snap-center {
+        scroll-snap-align: center;
+      }
+      .history-card {
+        @apply bg-white rounded-xl shadow-culture p-6 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-artifact;
+      }
+      .text-balance {
+        text-wrap: balance;
+      }
+    }
+  </style>
+  <link href="css/css3.css" rel="stylesheet">
+</head>
+<body class="bg-neutral-50 font-sans text-neutral-800">
+  <!-- 导航栏 -->
+  <header class="fixed w-full top-0 z-50 transition-all duration-300" id="navbar">
+    <div class="bg-secondary/90 backdrop-blur-md text-white shadow-md">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-4">
+          <div class="flex items-center space-x-2">
+            <i class="fa fa-university text-primary text-2xl"></i>
+            <a href="index.html" class="text-xl font-serif font-bold">汉中文化旅游</a>
+          </div>
+          
+          <!-- 桌面导航 -->
+          <nav class="hidden md:flex items-center space-x-8">
+            <a href="index.html" class="text-neutral-600 hover:text-primary font-medium transition-colors">首页</a>
+            <a href="scenic_spots.html" class="text-neutral-600 hover:text-primary font-medium transition-colors">文化景点</a>
+            <a href="travel_routes.html" class="text-neutral-600 hover:text-primary font-medium transition-colors">精选路线</a>
+            <a href="han_culture.html" class="text-primary font-medium border-b-2 border-primary">汉文化</a>
+            <a href="food_recommendation.html" class="text-neutral-600 hover:text-primary font-medium transition-colors">汉中美食</a>
+            <a href="contact_us.html" class="text-neutral-600 hover:text-primary font-medium transition-colors">联系我们</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 区域 -->
+  <section class="relative h-[clamp(30rem,60vh,40rem)] bg-hero-pattern bg-cover bg-center flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/70 to-black/40"></div>
+    
+    <!-- 动态历史元素 -->
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="history-element absolute top-1/4 left-1/4 w-16 h-16 opacity-20 bg-primary/30 rounded-full animate-history-float" style="animation-delay: 0s;"></div>
+      <div class="history-element absolute top-1/3 right-1/4 w-20 h-20 opacity-10 bg-accent/30 rounded-full animate-history-float" style="animation-delay: 2s;"></div>
+      <div class="history-element absolute bottom-1/4 left-1/3 w-12 h-12 opacity-15 bg-secondary/30 rounded-full animate-history-float" style="animation-delay: 4s;"></div>
+      <div class="history-element absolute bottom-1/3 right-1/3 w-16 h-16 opacity-20 bg-primary/30 rounded-full animate-history-float" style="animation-delay: 6s;"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+      <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-serif font-bold text-white text-shadow-history animate-text-reveal">
+        溯源千年 <span class="text-primary">汉脉传承</span>
+      </h1>
+      <p class="text-[clamp(1rem,2vw,1.25rem)] text-white/90 max-w-3xl mx-auto mt-6 opacity-0" id="hero-subtitle">
+        探寻汉中文化的历史密码，感受千年文明的深厚底蕴
+      </p>
+      <div class="mt-10 opacity-0" id="hero-cta">
+        <a href="#culture-overview" class="inline-flex items-center px-8 py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-md transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+          开启文化之旅 <i class="fa fa-compass ml-2"></i>
+        </a>
+      </div>
+    </div>
+    
+    <!-- 滚动指示器 -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-scroll-indicator">
+      <div class="w-6 h-10 border-2 border-white rounded-full flex justify-center">
+        <div class="w-1 h-2 bg-white rounded-full mt-2 animate-bounce"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 文化概述 -->
+  <section id="culture-overview" class="py-20 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-serif font-bold text-secondary relative inline-block brush-stroke">
+          汉家发祥地
+        </h2>
+        <p class="text-neutral-600 mt-6 max-w-3xl mx-auto">
+          汉中，是汉文化的重要发源地，是连接中原与巴蜀的文化走廊，承载着千年文明的厚重积淀
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="order-2 md:order-1">
+          <h3 class="text-2xl font-bold text-secondary mb-6">汉文化的摇篮</h3>
+          <p class="text-neutral-600 mb-4">
+            汉中，因汉水而得名，是刘邦建立汉朝的发祥地。自公元前312年秦惠文王首置汉中郡以来，已有2300多年的历史。
+          </p>
+          <p class="text-neutral-600 mb-4">
+            作为"汉家发祥地"，汉中见证了汉朝的兴衰，孕育了独特的汉文化。这里是丝绸之路的重要节点，是三国文化的核心区域，也是众多历史名人的故乡。
+          </p>
+          <p class="text-neutral-600 mb-6">
+            汉中的文化遗产丰富多样，从古老的青铜器到精美的汉代石刻，从传统的民间艺术到独特的民俗风情，每一处都散发着浓厚的历史气息。
+          </p>
+          
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-han-100 p-4 rounded-lg">
+              <div class="text-3xl font-bold text-primary mb-1">2300+</div>
+              <div class="text-neutral-600">年历史传承</div>
+            </div>
+            <div class="bg-han-100 p-4 rounded-lg">
+              <div class="text-3xl font-bold text-primary mb-1">120+</div>
+              <div class="text-neutral-600">重点文物保护单位</div>
+            </div>
+            <div class="bg-han-100 p-4 rounded-lg">
+              <div class="text-3xl font-bold text-primary mb-1">30+</div>
+              <div class="text-neutral-600">非物质文化遗产</div>
+            </div>
+            <div class="bg-han-100 p-4 rounded-lg">
+              <div class="text-3xl font-bold text-primary mb-1">8</div>
+              <div class="text-neutral-600">国家级历史文化名镇</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="order-1 md:order-2 relative">
+          <img src="images/han_culture/汉中博物馆.jpg" alt="汉中历史文化" class="w-full h-auto rounded-xl shadow-lg">
+          <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg max-w-xs">
+            <div class="flex items-center">
+              <i class="fa fa-quote-left text-primary text-2xl mr-3"></i>
+              <p class="text-neutral-700 italic">
+                "汉家兴盛，起于汉中"
+              </p>
+            </div>
+            <p class="text-right text-neutral-500 text-sm mt-2">——《汉书》</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 历史沿革 -->
+
+  
+  <!-- 文化特色 -->
+  <section id="culture-features" class="py-20 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-serif font-bold text-secondary relative inline-block brush-stroke">
+          文化特色
+        </h2>
+        <p class="text-neutral-600 mt-6 max-w-3xl mx-auto">
+          汉中文化兼容并蓄，既有北方文化的粗犷豪迈，又有南方文化的细腻婉约
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- 三国文化 -->
+        <div class="history-card group">
+          <div class="relative overflow-hidden rounded-lg mb-6">
+            <img src="images/han_culture/三国文化.jpg" alt="三国文化" class="w-full h-60 object-cover transition-transform duration-700 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div class="p-6">
+                <p class="text-white text-sm italic">
+                  "青山依旧在，几度夕阳红"
+                </p>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">三国文化</h3>
+          <p class="text-neutral-600 mt-2">
+            汉中是三国文化的重要承载地，诸葛亮在此屯兵八年，留下了武侯祠、定军山、阳平关等众多历史遗迹，是三国文化爱好者的必访之地。
+          </p>
+          <a href="#" class="inline-flex items-center mt-4 text-primary font-medium hover:text-primary/80 transition-colors">
+            探索三国遗迹 <i class="fa fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+        
+        <!-- 栈道文化 -->
+        <div class="history-card group">
+          <div class="relative overflow-hidden rounded-lg mb-6">
+            <img src="images/index/石门栈道.jpg" alt="栈道文化" class="w-full h-60 object-cover transition-transform duration-700 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div class="p-6">
+                <p class="text-white text-sm italic">
+                  "明修栈道，暗度陈仓"
+                </p>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">栈道文化</h3>
+          <p class="text-neutral-600 mt-2">
+            汉中古栈道是中国古代交通史上的奇迹，包括褒斜道、子午道、傥骆道等，是连接关中与巴蜀的重要通道，被誉为"中国古代高速公路"。
+          </p>
+          <a href="#" class="inline-flex items-center mt-4 text-primary font-medium hover:text-primary/80 transition-colors">
+            重走古栈道 <i class="fa fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+        
+        <!-- 汉水文化 -->
+        <div class="history-card group">
+          <div class="relative overflow-hidden rounded-lg mb-6">
+            <img src="images/han_culture/汉水文化.jpeg" alt="汉水文化" class="w-full h-60 object-cover transition-transform duration-700 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div class="p-6">
+                <p class="text-white text-sm italic">
+                  "汉水东流，不舍昼夜"
+                </p>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">汉水文化</h3>
+          <p class="text-neutral-600 mt-2">
+            汉水是长江最大的支流，也是汉文化的重要源头。汉中因汉水而得名，汉水文化滋养了这片土地，形成了独特的水乡风情和民俗文化。
+          </p>
+          <a href="#" class="inline-flex items-center mt-4 text-primary font-medium hover:text-primary/80 transition-colors">
+            探访汉水风情 <i class="fa fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- 民俗文化 -->
+        <div class="history-card group">
+          <div class="flex flex-col md:flex-row">
+            <div class="md:w-1/2 relative overflow-hidden rounded-l-lg">
+              <img src="images/han_culture/书法绘画.jpg" alt="民俗文化" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+            </div>
+            <div class="md:w-1/2 p-6">
+              <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">民俗文化</h3>
+              <p class="text-neutral-600 mt-2">
+                汉中民俗文化丰富多彩，有舞龙舞狮、踩高跷、秧歌等传统表演，还有独具特色的民间手工艺，如剪纸、刺绣、木雕等，展现了当地人民的智慧和创造力。
+              </p>
+              <a href="#" class="inline-flex items-center mt-4 text-primary font-medium hover:text-primary/80 transition-colors">
+                体验民俗风情 <i class="fa fa-arrow-right ml-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 红色文化 -->
+        <div class="history-card group">
+          <div class="flex flex-col md:flex-row">
+            <div class="md:w-1/2 relative overflow-hidden rounded-l-lg">
+              <img src="images/han_culture/红色文化.jpg" alt="红色文化" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+            </div>
+            <div class="md:w-1/2 p-6">
+              <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">红色文化</h3>
+              <p class="text-neutral-600 mt-2">
+                汉中是川陕革命根据地的重要组成部分，有着丰富的红色文化资源。这里曾是红四方面军战斗过的地方，留下了众多革命遗址和英雄事迹。
+              </p>
+              <a href="#" class="inline-flex items-center mt-4 text-primary font-medium hover:text-primary/80 transition-colors">
+                追寻红色记忆 <i class="fa fa-arrow-right ml-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- 文化遗产 -->
+    <section id="cultural-heritage" class="py-20 bg-han-100/50">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-serif font-bold text-secondary relative inline-block brush-stroke">
+            文化遗产
+          </h2>
+          <p class="text-neutral-600 mt-6 max-w-3xl mx-auto">
+            穿越千年时光，汉中的文化遗产依然闪耀着独特的光芒
+          </p>
+        </div>
+  
+        <!-- 文物保护单位 -->
+        <div class="mb-16">
+          <h3 class="text-2xl font-bold text-secondary mb-8 text-center">国家级文物保护单位</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- 武侯祠 -->
+            <div class="bg-white rounded-xl shadow-culture overflow-hidden group">
+              <div class="relative">
+                <img src="images/scenic_spots/武侯祠.jpg" alt="武侯祠" class="w-full h-60 object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="absolute bottom-0 left-0 w-full p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                  <h4 class="text-xl font-bold">武侯祠</h4>
+                  <p class="text-sm text-white/80">全国重点文物保护单位</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-neutral-600">
+                  汉中武侯祠是纪念诸葛亮的专祠，始建于蜀汉景耀六年（公元263年），是全国最早的武侯祠，有"天下第一武侯祠"之称。
+                </p>
+                <div class="mt-4 flex items-center justify-between">
+                  <span class="text-xs text-neutral-500">始建于：公元263年</span>
+                  <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">了解更多</a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 张骞墓 -->
+            <div class="bg-white rounded-xl shadow-culture overflow-hidden group">
+              <div class="relative">
+                <img src="images/han_culture/张骞纪念馆.jpg" alt="张骞墓" class="w-full h-60 object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="absolute bottom-0 left-0 w-full p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                  <h4 class="text-xl font-bold">张骞墓</h4>
+                  <p class="text-sm text-white/80">全国重点文物保护单位</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-neutral-600">
+                  张骞墓是西汉时期杰出的外交家、探险家张骞的墓葬，2014年被列入世界文化遗产名录，是丝绸之路申遗项目之一。
+                </p>
+                <div class="mt-4 flex items-center justify-between">
+                  <span class="text-xs text-neutral-500">历史年代：西汉</span>
+                  <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">了解更多</a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 蔡伦墓祠 -->
+            <div class="bg-white rounded-xl shadow-culture overflow-hidden group">
+              <div class="relative">
+                <img src="images/han_culture/蔡伦墓寺.jpg" alt="蔡伦墓祠" class="w-full h-60 object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="absolute bottom-0 left-0 w-full p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                  <h4 class="text-xl font-bold">蔡伦墓祠</h4>
+                  <p class="text-sm text-white/80">全国重点文物保护单位</p>
+                </div>
+              </div>
+              <div class="p-6">
+                <p class="text-neutral-600">
+                  蔡伦墓祠是东汉时期造纸术发明家蔡伦的墓地和祠庙，现存建筑多为明清时期所建，是研究中国造纸术发展的重要实物资料。
+                </p>
+                <div class="mt-4 flex items-center justify-between">
+                  <span class="text-xs text-neutral-500">历史年代：东汉</span>
+                  <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">了解更多</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- 非物质文化遗产 -->
+        <div>
+          <h3 class="text-2xl font-bold text-secondary mb-8 text-center">非物质文化遗产</h3>
+          
+          <div class="relative">
+            <div class="overflow-x-auto scroll-snap-x pb-8">
+              <div class="flex space-x-6 min-w-max px-4">
+                <!-- 汉中民歌 -->
+                <div class="w-80 snap-center bg-white rounded-xl shadow-culture overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-2 hover:shadow-artifact">
+                  <div class="relative">
+                    <img src="images/han_culture/汉中民歌.jpg" alt="汉中民歌" class="w-full h-48 object-cover">
+                    <div class="absolute top-4 right-4 bg-primary text-white text-xs px-2 py-1 rounded-full">
+                      国家级
+                    </div>
+                  </div>
+                  <div class="p-6 flex-grow">
+                    <h4 class="text-lg font-bold text-secondary">汉中民歌</h4>
+                    <p class="text-neutral-600 text-sm mt-2">
+                      汉中民歌是陕南民歌的重要组成部分，具有浓郁的地方特色和生活气息，形式多样，包括号子、山歌、小调等。
+                    </p>
+                  </div>
+                  <div class="p-4 border-t border-neutral-100">
+                    <div class="flex justify-between items-center">
+                      <span class="text-xs text-neutral-500">申报地区：汉中市</span>
+                      <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">欣赏音频</a>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- 汉中傩舞 -->
+                <div class="w-80 snap-center bg-white rounded-xl shadow-culture overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-2 hover:shadow-artifact">
+                  <div class="relative">
+                    <img src="images/han_culture/傩戏表演.jpg" alt="汉中傩舞" class="w-full h-48 object-cover">
+                    <div class="absolute top-4 right-4 bg-primary text-white text-xs px-2 py-1 rounded-full">
+                      省级
+                    </div>
+                  </div>
+                  <div class="p-6 flex-grow">
+                    <h4 class="text-lg font-bold text-secondary">汉中傩舞</h4>
+                    <p class="text-neutral-600 text-sm mt-2">
+                      傩舞是一种古老的祭祀舞蹈，汉中傩舞保留了较多的原始形态和文化内涵，被称为"中国舞蹈活化石"。
+                    </p>
+                  </div>
+                  <div class="p-4 border-t border-neutral-100">
+                    <div class="flex justify-between items-center">
+                      <span class="text-xs text-neutral-500">申报地区：城固县</span>
+                      <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">观看视频</a>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- 洋县悬台社火 -->
+                <div class="w-80 snap-center bg-white rounded-xl shadow-culture overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-2 hover:shadow-artifact">
+                  <div class="relative">
+                    <img src="images/han_culture/洋县悬台社火.jpg" alt="洋县悬台社火" class="w-full h-48 object-cover">
+                    <div class="absolute top-4 right-4 bg-primary text-white text-xs px-2 py-1 rounded-full">
+                      省级
+                    </div>
+                  </div>
+                  <div class="p-6 flex-grow">
+                    <h4 class="text-lg font-bold text-secondary">洋县悬台社火</h4>
+                    <p class="text-neutral-600 text-sm mt-2">
+                      洋县悬台社火是一种传统民间艺术，以其惊险的造型和精湛的表演技巧而闻名，是汉中地区春节期间的重要民俗活动。
+                    </p>
+                  </div>
+                  <div class="p-4 border-t border-neutral-100">
+                    <div class="flex justify-between items-center">
+                      <span class="text-xs text-neutral-500">申报地区：洋县</span>
+                      <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">了解详情</a>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- 镇巴民歌 -->
+                <div class="w-80 snap-center bg-white rounded-xl shadow-culture overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-2 hover:shadow-artifact">
+                  <div class="relative">
+                    <img src="images/han_culture/镇巴民歌.jpg" alt="镇巴民歌" class="w-full h-48 object-cover">
+                    <div class="absolute top-4 right-4 bg-primary text-white text-xs px-2 py-1 rounded-full">
+                      省级
+                    </div>
+                  </div>
+                  <div class="p-6 flex-grow">
+                    <h4 class="text-lg font-bold text-secondary">镇巴民歌</h4>
+                    <p class="text-neutral-600 text-sm mt-2">
+                      镇巴民歌是陕南民歌的重要分支，具有独特的巴山风格和浓郁的乡土气息，歌词朴实，曲调优美。
+                    </p>
+                  </div>
+                  <div class="p-4 border-t border-neutral-100">
+                    <div class="flex justify-between items-center">
+                      <span class="text-xs text-neutral-500">申报地区：镇巴县</span>
+                      <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">欣赏音频</a>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- 汉中面皮制作技艺 -->
+                <div class="w-80 snap-center bg-white rounded-xl shadow-culture overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-2 hover:shadow-artifact">
+                  <div class="relative">
+                    <img src="images/food/汉中面皮.jpg" alt="汉中面皮制作技艺" class="w-full h-48 object-cover">
+                    <div class="absolute top-4 right-4 bg-primary text-white text-xs px-2 py-1 rounded-full">
+                      市级
+                    </div>
+                  </div>
+                  <div class="p-6 flex-grow">
+                    <h4 class="text-lg font-bold text-secondary">汉中面皮制作技艺</h4>
+                    <p class="text-neutral-600 text-sm mt-2">
+                      汉中面皮是陕西著名的传统小吃，历史悠久，制作工艺独特，口感细腻，是汉中饮食文化的重要代表。
+                    </p>
+                  </div>
+                  <div class="p-4 border-t border-neutral-100">
+                    <div class="flex justify-between items-center">
+                      <span class="text-xs text-neutral-500">申报地区：汉中市</span>
+                      <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">学习制作</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 滚动按钮 -->
+            <button class="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-primary focus:outline-none hover:bg-primary hover:text-white transition-colors duration-300" id="scroll-left">
+              <i class="fa fa-chevron-left"></i>
+            </button>
+            <button class="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-primary focus:outline-none hover:bg-primary hover:text-white transition-colors duration-300" id="scroll-right">
+              <i class="fa fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- 文化名人 -->
+    <section id="cultural-figures" class="py-20 bg-white">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-serif font-bold text-secondary relative inline-block brush-stroke">
+            文化名人
+          </h2>
+          <p class="text-neutral-600 mt-6 max-w-3xl mx-auto">
+            汉中大地，人才辈出，他们为中华文明的发展做出了重要贡献
+          </p>
+        </div>
+  
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- 张骞 -->
+          <div class="bg-white rounded-xl shadow-culture overflow-hidden group relative">
+            <div class="relative h-80 overflow-hidden">
+              <img src="images/scenic_spots/张骞.jpg" alt="张骞" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+              <div class="absolute bottom-0 left-0 w-full p-6 text-white">
+                <h3 class="text-xl font-bold">张骞</h3>
+                <p class="text-white/80">西汉外交家、探险家</p>
+              </div>
+            </div>
+            <div class="p-6 bg-white transform translate-y-0 group-hover:translate-y-[-80px] transition-transform duration-300">
+              <p class="text-neutral-600 text-sm">
+                张骞是中国汉代杰出的外交家、旅行家、探险家，丝绸之路的开拓者。他两次出使西域，促进了中原与西域的文化交流，为丝绸之路的开辟奠定了基础。
+              </p>
+              <div class="mt-4">
+                <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">了解更多</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 诸葛亮 -->
+          <div class="bg-white rounded-xl shadow-culture overflow-hidden group relative">
+            <div class="relative h-80 overflow-hidden">
+              <img src="images/scenic_spots/诸葛亮.jpg" alt="诸葛亮" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+              <div class="absolute bottom-0 left-0 w-full p-6 text-white">
+                <h3 class="text-xl font-bold">诸葛亮</h3>
+                <p class="text-white/80">三国时期蜀汉丞相</p>
+              </div>
+            </div>
+            <div class="p-6 bg-white transform translate-y-0 group-hover:translate-y-[-80px] transition-transform duration-300">
+              <p class="text-neutral-600 text-sm">
+                诸葛亮是三国时期蜀汉丞相，杰出的政治家、军事家、文学家。他曾在汉中屯兵八年，六出祁山，为蜀汉政权的巩固和发展做出了重要贡献。
+              </p>
+              <div class="mt-4">
+                <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">了解更多</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 蔡伦 -->
+          <div class="bg-white rounded-xl shadow-culture overflow-hidden group relative">
+            <div class="relative h-80 overflow-hidden">
+              <img src="images/scenic_spots/蔡伦.jpg" alt="蔡伦" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+              <div class="absolute bottom-0 left-0 w-full p-6 text-white">
+                <h3 class="text-xl font-bold">蔡伦</h3>
+                <p class="text-white/80">东汉造纸术发明家</p>
+              </div>
+            </div>
+            <div class="p-6 bg-white transform translate-y-0 group-hover:translate-y-[-80px] transition-transform duration-300">
+              <p class="text-neutral-600 text-sm">
+                蔡伦是东汉时期的发明家，他改进了造纸术，使纸张成为普遍使用的书写材料，对中国和世界文化的传播做出了巨大贡献。
+              </p>
+              <div class="mt-4">
+                <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">了解更多</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 李固 -->
+          <div class="bg-white rounded-xl shadow-culture overflow-hidden group relative">
+            <div class="relative h-80 overflow-hidden">
+              <img src="images/scenic_spots/李固.jpg" alt="李固" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+              <div class="absolute bottom-0 left-0 w-full p-6 text-white">
+                <h3 class="text-xl font-bold">李固</h3>
+                <p class="text-white/80">东汉名臣</p>
+              </div>
+            </div>
+            <div class="p-6 bg-white transform translate-y-0 group-hover:translate-y-[-80px] transition-transform duration-300">
+              <p class="text-neutral-600 text-sm">
+                李固是东汉时期的名臣，曾任太尉等职，以忠直敢谏著称。他为东汉政权的稳定和发展做出了重要贡献，被誉为"北斗喉舌"。
+              </p>
+              <div class="mt-4">
+                <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">了解更多</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- 文化活动 -->
+    <section id="cultural-events" class="py-20 bg-han-100/50">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-serif font-bold text-secondary relative inline-block brush-stroke">
+            文化活动
+          </h2>
+          <p class="text-neutral-600 mt-6 max-w-3xl mx-auto">
+            参与丰富多彩的文化活动，感受汉中文化的独特魅力
+          </p>
+        </div>
+  
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- 文化节 -->
+          <div class="bg-white rounded-xl shadow-culture overflow-hidden group">
+            <div class="relative">
+              <img src="images/han_culture/《汉颂》大型实景演出.jpg" alt="汉中文化节" class="w-full h-60 object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+                每年4月
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">汉中文化旅游节</h3>
+              <p class="text-neutral-600 mt-2">
+                汉中文化旅游节是展示汉中文化魅力的重要平台，期间将举办文艺演出、非遗展示、美食体验等一系列活动。
+              </p>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-xs text-neutral-500">活动地点：汉中市体育场</span>
+                <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">预约参观</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 诸葛亮文化旅游节 -->
+          <div class="bg-white rounded-xl shadow-culture overflow-hidden group">
+            <div class="relative">
+              <img src="images/han_culture/2025汉中诸葛亮文化旅游节.jpg" alt="诸葛亮文化旅游节" class="w-full h-60 object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+                每年9月
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">诸葛亮文化旅游节</h3>
+              <p class="text-neutral-600 mt-2">
+                以纪念诸葛亮为主题的文化旅游节，期间将举办祭祀仪式、学术研讨、文艺表演等活动，弘扬三国文化。
+              </p>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-xs text-neutral-500">活动地点：武侯祠</span>
+                <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">预约参观</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 张骞文化艺术节 -->
+          <div class="bg-white rounded-xl shadow-culture overflow-hidden group">
+            <div class="relative">
+              <img src="images/han_culture/张骞文化艺术节.jpg" alt="张骞文化艺术节" class="w-full h-60 object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+                每年10月
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">张骞文化艺术节</h3>
+              <p class="text-neutral-600 mt-2">
+                以张骞通西域为主题的文化艺术节，通过展览、演出、学术交流等形式，展现丝绸之路文化的魅力。
+              </p>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-xs text-neutral-500">活动地点：城固县张骞纪念馆</span>
+                <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium">预约参观</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- 文化之旅规划 -->
+    <section id="cultural-tour" class="py-20 bg-white">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-serif font-bold text-secondary relative inline-block brush-stroke">
+            文化之旅规划
+          </h2>
+          <p class="text-neutral-600 mt-6 max-w-3xl mx-auto">
+            为您精心设计的汉中文化探索路线，带您深度体验汉中的历史与文化
+          </p>
+        </div>
+  
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- 三日文化之旅 -->
+          <div class="bg-white rounded-xl shadow-culture overflow-hidden border border-neutral-100 group">
+            <div class="relative">
+              <img src="images/scenic_spots/山水文化三日游.jpg" alt="三日文化之旅" class="w-full h-60 object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+                经典路线
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">三日文化之旅</h3>
+              <p class="text-neutral-600 mt-2">
+                深度体验汉中的历史文化，游览武侯祠、古汉台、张骞纪念馆等核心景点，品尝地道美食，感受汉中的文化魅力。
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span class="text-xs bg-han-100 text-secondary px-2 py-1 rounded-full">武侯祠</span>
+                <span class="text-xs bg-han-100 text-secondary px-2 py-1 rounded-full">古汉台</span>
+                <span class="text-xs bg-han-100 text-secondary px-2 py-1 rounded-full">张骞纪念馆</span>
+                <span class="text-xs bg-han-100 text-secondary px-2 py-1 rounded-full">石门栈道</span>
+                <span class="text-xs bg-han-100 text-secondary px-2 py-1 rounded-full">拜将坛</span>
+              </div>
+              <div class="mt-6 flex items-center justify-between">
+                <div>
+                  <span class="text-2xl font-bold text-primary">¥1280</span>
+                  <span class="text-neutral-500 text-sm">/人起</span>
+                </div>
+                <a href="#" class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-md transition-colors duration-300">
+                  查看详情
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 三国文化专题之旅 -->
+          <div class="bg-white rounded-xl shadow-culture overflow-hidden border border-neutral-100 group">
+            <div class="relative">
+              <img src="images/scenic_spots/定军山.jpg" alt="三国文化专题之旅" class="w-full h-60 object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+                专题路线
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">三国文化专题之旅</h3>
+              <p class="text-neutral-600 mt-2">
+                追寻诸葛亮足迹，探访武侯祠、定军山、武侯墓等三国遗迹，了解三国历史，感受三国文化的魅力。
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span class="text-xs bg-han-100 text-secondary px-2 py-1 rounded-full">武侯祠</span>
+                <span class="text-xs bg-han-100 text-secondary px-2 py-1 rounded-full">定军山</span>
+                <span class="text-xs bg-han-100 text-secondary px-2 py-1 rounded-full">武侯墓</span>
+                <span class="text-xs bg-han-100 text-secondary px-2 py-1 rounded-full">阳平关</span>
+                <span class="text-xs bg-han-100 text-secondary px-2 py-1 rounded-full">马超墓</span>
+              </div>
+              <div class="mt-6 flex items-center justify-between">
+                <div>
+                  <span class="text-2xl font-bold text-primary">¥1580</span>
+                  <span class="text-neutral-500 text-sm">/人起</span>
+                </div>
+                <a href="#" class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-md transition-colors duration-300">
+                  查看详情
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 非遗体验之旅 -->
+          <div class="bg-white rounded-xl shadow-culture overflow-hidden border border-neutral-100 group">
+            <div class="relative">
+              <img src="images/scenic_spots/经典一日三人游.jpg" alt="非遗体验之旅" class="w-full h-60 object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+                体验路线
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-secondary group-hover:text-primary transition-colors duration-300">非遗体验之旅</h3>
+              <p class="text-neutral-600 mt-2">
+                参与传统手工艺制作，学习汉中面皮、剪纸、刺绣等技艺，深入了解汉中非物质文化遗产的魅力。
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span class="text-xs bg-han-100 text-secondary px-2 py-1 rounded-full">面皮制作</span>
+                <span class="text-xs bg-han-100 text-secondary px-2 py-1 rounded-full">剪纸艺术</span>
+                <span class="text-xs bg-han-100 text-secondary px-2 py-1 rounded-full">刺绣体验</span>
+                <span class="text-xs bg-han-100 text-secondary px-2 py-1 rounded-full">傩舞表演</span>
+                <span class="text-xs bg-han-100 text-secondary px-2 py-1 rounded-full">民歌学习</span>
+              </div>
+              <div class="mt-6 flex items-center justify-between">
+                <div>
+                  <span class="text-2xl font-bold text-primary">¥1380</span>
+                  <span class="text-neutral-500 text-sm">/人起</span>
+                </div>
+                <a href="#" class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-md transition-colors duration-300">
+                  查看详情
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- 文化保护与传承 -->
+    <section id="cultural-conservation" class="py-20 bg-han-100/50">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-serif font-bold text-secondary relative inline-block brush-stroke">
+            文化保护与传承
+          </h2>
+          <p class="text-neutral-600 mt-6 max-w-3xl mx-auto">
+            保护历史文化遗产，传承中华文明基因
+          </p>
+        </div>
+  
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div>
+            <img src="images/han_culture/文化保护.jpg" alt="文化保护" class="w-full h-auto rounded-xl shadow-lg">
+          </div>
+          
+          <div>
+            <h3 class="text-2xl font-bold text-secondary mb-6">守护历史 传承未来</h3>
+            <p class="text-neutral-600 mb-4">
+              近年来，汉中市高度重视文化遗产保护与传承工作，通过加强文物保护、传承非物质文化遗产、开展文化研究等多种方式，守护好这片土地上的历史文化遗产。
+            </p>
+            
+            <div class="space-y-4 mt-8">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                  <i class="fa fa-university"></i>
+                </div>
+                <div class="ml-4">
+                  <h4 class="text-lg font-medium text-secondary">文物保护</h4>
+                  <p class="text-neutral-600 text-sm mt-1">
+                    加强对武侯祠、张骞墓、蔡伦墓祠等重点文物保护单位的修缮和保护，建立完善的文物保护体系。
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                  <i class="fa fa-book"></i>
+                </div>
+                <div class="ml-4">
+                  <h4 class="text-lg font-medium text-secondary">非遗传承</h4>
+                  <p class="text-neutral-600 text-sm mt-1">
+                    建立非物质文化遗产保护名录，支持非遗传承人开展传习活动，推动非遗进校园、进社区、进景区。
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                  <i class="fa fa-lightbulb-o"></i>
+                </div>
+                <div class="ml-4">
+                  <h4 class="text-lg font-medium text-secondary">创新发展</h4>
+                  <p class="text-neutral-600 text-sm mt-1">
+                    推动文化与旅游、科技等产业融合发展，开发具有汉中特色的文化创意产品，提升文化遗产的影响力和吸引力。
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-8 bg-white p-6 rounded-lg shadow-culture">
+              <h4 class="text-lg font-medium text-secondary mb-4">参与文化保护</h4>
+              <p class="text-neutral-600 text-sm mb-4">
+                文化遗产保护需要全社会的共同参与。如果您对汉中文化遗产保护有兴趣，可以通过以下方式参与：
+              </p>
+              <ul class="space-y-2 text-sm text-neutral-600">
+                <li class="flex items-center">
+                  <i class="fa fa-check-circle text-primary mr-2"></i>
+                  参加志愿者活动，参与文物保护和非遗传承工作
+                </li>
+                <li class="flex items-center">
+                  <i class="fa fa-check-circle text-primary mr-2"></i>
+                  购买非遗产品，支持非遗传承人
+                </li>
+                <li class="flex items-center">
+                  <i class="fa fa-check-circle text-primary mr-2"></i>
+                  向文化保护机构捐赠资金或文物
+                </li>
+                <li class="flex items-center">
+                  <i class="fa fa-check-circle text-primary mr-2"></i>
+                  通过社交媒体分享汉中文化，提高公众文化保护意识
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- 页脚 -->
+    <footer class="bg-neutral-800 text-white pt-16 pb-8 relative overflow-hidden">
+      <!-- 背景装饰元素 -->
+      <div class="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full -ml-32 -mt-32"></div>
+      <div class="absolute bottom-0 right-0 w-80 h-80 bg-primary/5 rounded-full -mr-40 -mb-40"></div>
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
+          <!-- 左侧板块 - 保持不变 -->
+          <div class="md:col-span-3">
+            <div class="flex items-center space-x-2 mb-6">
+              <i class="fa fa-university text-primary text-2xl"></i>
+              <span class="text-xl font-serif font-bold text-white">汉中文化旅游</span>
+            </div>
+            <p class="text-neutral-400 mb-6">
+              探索千年汉文化的源头，感受历史与自然的完美融合。
+            </p>
+            <div class="flex space-x-4">
+              <a href="#" class="w-10 h-10 bg-neutral-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors duration-300 transform hover:scale-110">
+                <i class="fa fa-weixin"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-neutral-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors duration-300 transform hover:scale-110">
+                <i class="fa fa-weibo"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-neutral-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors duration-300 transform hover:scale-110">
+                <i class="fa fa-youtube-play"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-neutral-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors duration-300 transform hover:scale-110">
+                <i class="fa fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+          
+          <!-- 中间板块 - 诗词 -->
+          <div class="md:col-span-6 bg-gradient-to-r from-neutral-800 via-neutral-900 to-neutral-800 p-8 rounded-xl shadow-lg relative overflow-hidden">
+            <div class="relative z-10">
+              <h3 class="text-xl font-serif font-bold text-white mb-6 text-center brush-stroke">汉中之美</h3>
+              <div class="text-neutral-300 space-y-4 font-serif text-lg">
+                <p class="text-center leading-relaxed">
+                  <span class="text-primary">汉江之畔千年城</span>，<br>
+                  <span class="text-primary">古汉台前忆峥嵘</span>。<br>
+                  <span class="text-primary">武侯祠内柏森森</span>，<br>
+                  <span class="text-primary">褒斜栈道接云空</span>。<br>
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 右侧板块 - 订阅我们 -->
+          <div class="md:col-span-3">
+            <h3 class="text-lg font-medium text-white mb-6">订阅我们</h3>
+            <p class="text-neutral-400 mb-4">
+              订阅我们的电子邮件，获取最新的旅游资讯和优惠活动。
+            </p>
+            <form class="space-y-3">
+              <div>
+                <input type="email" placeholder="您的电子邮箱" class="w-full px-4 py-3 bg-neutral-700 border border-neutral-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-white placeholder-neutral-400 transition-all duration-300">
+              </div>
+              <button type="submit" class="w-full px-4 py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-md transition-colors duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                <i class="fa fa-paper-plane mr-2"></i> 订阅
+              </button>
+            </form>
+          </div>
+        </div>
+        
+        <div class="border-t border-neutral-700 pt-8">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <p class="text-neutral-500 text-sm mb-4 md:mb-0">
+              &copy; 2025 汉中文化旅游发展有限公司 版权所有 | 陕ICP备12345678号
+            </p>
+            <div class="flex space-x-6">
+              <a href="#" class="text-neutral-500 hover:text-primary text-sm transition-colors duration-300">隐私政策</a>
+              <a href="#" class="text-neutral-500 hover:text-primary text-sm transition-colors duration-300">服务条款</a>
+              <a href="#" class="text-neutral-500 hover:text-primary text-sm transition-colors duration-300">网站地图</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  
+  <!-- 回到顶部按钮 -->
+  <button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-primary/90">
+    <i class="fa fa-arrow-up"></i>
+  </button>
+  
+  <!-- JavaScript -->
+  <script>
+    // 导航栏滚动效果
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        navbar.classList.add('bg-white', 'shadow-md');
+        navbar.classList.remove('bg-transparent');
+      } else {
+        navbar.classList.remove('bg-white', 'shadow-md');
+        navbar.classList.add('bg-transparent');
+      }
+    });
+    // 回到顶部按钮
+    const backToTopButton = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        backToTopButton.classList.remove('opacity-0', 'invisible');
+        backToTopButton.classList.add('opacity-100', 'visible');
+      } else {
+        backToTopButton.classList.add('opacity-0', 'invisible');
+        backToTopButton.classList.remove('opacity-100', 'visible');
+      }
+    });
+  
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  
+    // 预订表单提交
+    const bookingForm = document.getElementById('booking-form');
+      bookingForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // 这里可以添加表单验证和提交逻辑
+        alert('预订申请已提交，我们的旅行顾问将尽快与您联系！');
+        bookingForm.reset();
+      });
+  
+      // 为行程添加动画效果
+      const animateOnScroll = () => {
+        const elements = document.querySelectorAll('.timeline-item');
+        elements.forEach(element => {
+          const elementPosition = element.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          if (elementPosition < windowHeight - 100) {
+            element.classList.add('animate-fade-in');
+          }
+        });
+      };
+  
+      window.addEventListener('scroll', animateOnScroll);
+      window.addEventListener('load', animateOnScroll);
+    </script>
+  </body>
+  </html>
